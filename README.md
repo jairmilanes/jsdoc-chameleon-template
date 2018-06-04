@@ -1,7 +1,7 @@
-# ![JSDoc Chameleon Template](https://i.imgur.com/eP1AUxW.png "JSDoc Chameleon Template") 
-Chameleon is a nice, modern JsDoc 3 template for better looking documentation pages! [https://github.com/layoutzweb/jsdoc-modern-template](https://github.com/layoutzweb/jsdoc-modern-template).
+# [JSDoc Chameleon Template](https://i.imgur.com/eP1AUxW.png "JSDoc Chameleon Template") 
+Chameleon is a nice, modern JsDoc 3 template for better looking documentation pages!
 
-This template is a fork of the [Minami Js Doc Template](https://github.com/nijikokun/minami) with a few tweeks, it is fully responsive and gives you a customization options to choose colors and fonts to make it look as close to your brand as possible.
+This template is a fork of the [Minami Js Doc Template](https://github.com/nijikokun/minami) with a few tweeks, it is fully responsive and gives you customization options to choose colors and fonts, to make it look as close to your brand as possible.
 
 ##### Github Repo [https://github.com/layoutzweb/jsdoc-modern-template](https://github.com/layoutzweb/jsdoc-modern-template) 
 ![Modern JS Doc Template Screenshot](https://i.imgur.com/8xc5ehY.jpg)
@@ -69,28 +69,27 @@ If you would like to enable [Algolia DocSearch](https://community.algolia.com/do
     "excludePattern": "(node_modules|__tests__|__mocks__|^|\\/|\\\\)_"
   },
   "plugins": [
-    "plugins/markdown",
-    "src/docs/plugins/meta"
+    "plugins/markdown"
   ],
   "recurseDepth": 2,
   "template": {
-    "title": "Postman SDK - An easy way to integrate sharing documentation and more into your development environment",
-    "shortTitle": "Postman SDK",
-    "logo": "https://github.com/layoutzweb/postman-sdk/raw/master/media/postman-logo.png",
-    "links": [
+    "title": "Your SDK Description",
+    "shortTitle": "Your SDK Name",
+    "logo": "https://yourhost.com/your-logo.png",
+    "links": [ // Links to be displayed in the top right of the docs page
       {"github": "https://github.com", "title": "View it on Github"},
       {"npm": "https://github.com", "title": "View it on NPM", "size": 19}
     ],
-    "scheme": "0",
+    "scheme": "0", // Current selected scheme index, from the list of colors below
     "disableSort": false,
     "font": {
-      "titleFont": "Roboto",
-      "textFont": "Roboto",
-      "codeFont": "Roboto Mono"
+      "titleFont": "Roboto", // Current selected font for Titles
+      "textFont": "Roboto", // Current selected font for general text
+      "codeFont": "Roboto Mono" // Current selected font for code blocks
     }
   },
-  "styleSwitcher": true,
-  "colors": [
+  "styleSwitcher": true, // Turn the style switcher preview box on and off
+  "colors": [ // Color schemes available in the style switchers interface
     {
       "text": {
         "primary": "#dcdcdc",
@@ -142,7 +141,7 @@ If you would like to enable [Algolia DocSearch](https://community.algolia.com/do
       }
     }
   ],
-  "fonts": {
+  "fonts": { // Google fonts available in the style switcher interface
     "text": "Alegreya+Sans|Alfa+Slab+One|Bangers|Bungee|Changa+One|Exo|Fira+Sans|Heebo|IBM+Plex+Sans|Lalezar|Lato|Open+Sans|Oswald|PT+Sans|Passion+One|Patua+One|Questrial|Raleway|Righteous|Roboto|Rubik|Source+Sans+Pro|Squada+One|Titillium+Web|Voces",
     "code": "Cousine|Cutive+Mono|IBM+Plex+Mono|Inconsolata|Nanum+Gothic+Coding|Oxygen+Mono|PT+Mono|Share+Tech+Mono|Source+Code+Pro|Ubuntu+Mono|VT323"
   },
