@@ -1,0 +1,365 @@
+<?js
+var template = env.conf.template;
+var usesSearch = Boolean(template.search);
+var styleSwitcher = Boolean(env.conf.styleSwitcher);
+var icons = {
+    github: 'fab fa-github-alt',
+    bitbucket: 'fab fa-bitbucket'
+}
+var colors = env.conf.colors[template.scheme || 0];
+var schemes = env.conf.colors.map(function(color){
+    var sc = []
+    Object.keys(color).forEach(function(co) {
+       if (color[co].primary) { sc.push(color[co].primary) }
+       if (color[co].contrast) { sc.push(color[co].contrast) }
+       if (typeof color[co] === 'string') {
+            sc.push(color[co]);
+       }
+    })
+    return sc;
+});
+var textFonts = env.conf.fonts.text.split('|').map(function(font) {
+    return {name: font, title: font.split('+').join(' ')};
+});
+var codeFonts = env.conf.fonts.code.split('|').map(function(font) {
+    return {name: font, title: font.split('+').join(' ')};
+});
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      <?js= template.title || title ?> - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link id="google-font" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Cutive+Mono|Roboto:300,400,700" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="styles/highlight-themes/current.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  <link type="text/css" rel="stylesheet" href="styles/collapsible.css">
+  <link type="text/css" rel="stylesheet" href="styles/style-switcher.css">
+  <link type="text/css" rel="stylesheet" href="styles/selectric.css">
+  <?js if (usesSearch) { ?>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+  <?js } ?>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <script src="https://embed.runkit.com"></script>
+  <style id="style-switcher-styles">
+    nav {
+        background: <?js= colors.background.primary ?>;
+    }
+    .hljs {
+        background: <?js= colors.background.contrast ?>;
+    }
+    .nav-container > ul > li.active a {
+        color: <?js= colors.text.primary ?>;
+    }
+    .nav-container > ul > li.active a:hover {
+        color: <?js= colors.text.contrast ?>;
+    }
+    .nav-container > ul > li.active ul {
+        border-color: <?js= colors.text.contrast ?>;
+    }
+    h4.name {
+        color: <?js= colors.text.contrast ?>;
+    }
+    .params > div > code, .params > div > em {
+        color: <?js= colors.text.contrast ?>;
+    }
+    a, a:active {
+        color: <?js= colors.text.contrast ?>;
+    }
+    .hljs-doctag, .hljs-keyword, .hljs-formula {
+        color: <?js= colors.text.contrast ?>;
+    }
+    nav ul a:hover, nav ul a:active {
+        color: <?js= colors.text.contrast ?>;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header-fixed">
+      <h1>
+        <a href="index.html" title="modernTemplate.title">
+            <?js if (template.logo) { ?>
+                <img alt="<?js= template.shortTitle || 'Default Title' ?>" src="<?js= template.logo ?>" />
+            <?js } ?>
+            <?js= template.shortTitle || 'Default Title' ?>
+        </a>
+      </h1>
+      <div class="center-header">
+          <ul>
+            <?js if (usesSearch) { ?>
+            <li>
+              <div class="search-wrapper">
+                <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+                <input type="text" placeholder="Search" class="search-input">
+              </div>
+            </li>
+            <?js } ?>
+          </ul>
+      </div>
+      <div class="right-header">
+           <?js template.links.forEach(function(link) { var name = Object.keys(link)[0]; ?>
+                <a href="<?js= link[name] ?>" title="<?js= link.title ?>" style="<?js= link.size ? 'font-size: ' + link.size + 'px' : '' ?>">
+                    <i class="<?js= link.icon || icons[name] || 'fas fa-exclamation-triangle' ?>"></i>
+                </a>
+           <?js }) ?>
+      </div>
+  </header>
+
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <nav>
+    <div id="menu-container" class="scrollbar-inner">
+        <div class="nav-container">
+            <?js= this.nav ?>
+        </div>
+    </div>
+  </nav>
+
+  <div id="main">
+    <?js if (title != 'Home') { ?>
+      <h1 class="page-title">
+        <?js= title ?>
+      </h1>
+    <?js } ?>
+
+    <?js= content ?>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc <?js= env.version.number ?></a>
+  </footer>
+
+    <?js if (styleSwitcher) { ?>
+        <div class="style-switcher">
+            <div class="style-switcher-inner">
+                <h3>Pick a theme</h3>
+                <div class="style-switcher-theme-selector">
+                    <?js schemes.forEach(function(scheme, i) { ?>
+                        <a class="scheme-box" data-scheme="<?js= i ?>">
+                            <?js scheme.forEach(function(color) { ?>
+                                <span style="background: <?js= color ?>;"></span>
+                            <?js }); ?>
+                        </a>
+                    <?js }); ?>
+                </div>
+            </div>
+            <div class="style-switcher-inner">
+                <h3>Heading Font</h3>
+                <div class="style-switcher-font-selector">
+                    <select id="heading-font">
+                        <?js textFonts.forEach(function(font) { ?>
+                            <option value="<?js= font.name ?>"><?js= font.title ?></option>
+                        <?js }) ?>
+                    </select>
+                </div>
+            </div>
+            <div class="style-switcher-inner">
+                <h3>Text Font</h3>
+                <div class="style-switcher-font-selector">
+                    <select id="text-font">
+                        <?js textFonts.forEach(function(font) { ?>
+                            <option value="<?js= font.name ?>"><?js= font.title ?></option>
+                        <?js }) ?>
+                    </select>
+                </div>
+            </div>
+            <div class="style-switcher-inner">
+                <h3>Code Font</h3>
+                <div class="style-switcher-font-selector">
+                    <select id="code-font">
+                        <?js codeFonts.forEach(function(font) { ?>
+                            <option value="<?js= font.name ?>"><?js= font.title ?></option>
+                        <?js }) ?>
+                    </select>
+                </div>
+            </div>
+            <div class="style-switcher-inner">
+                <div class="style-switcher-actions">
+                     <button id="export-action">Export</button>
+                </div>
+            </div>
+          </div>
+      </div>
+      <div id="style-switcher-viewer">
+        <div class="style-switcher-viewer-container">
+            <div class="style-switcher-viewer-title">
+                <h2>JsDoc Config</h2>
+                <p>Add the config below to your JsDoc config file under a "template" property:</p>
+            </div>
+            <pre class="prettyprint">
+                <code id="config-preview" class="json"></code>
+            </pre>
+            <a id="style-switcher-viewer-close">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+      </div>
+  <?js } ?>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+  <script src="scripts/scrollbar.js"></script>
+  <script src="scripts/collapsible.js"></script>
+  <script src="scripts/jquery.selectric.min.js"></script>
+  <script src="scripts/clipboard.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <?js if (usesSearch) { ?>
+      <script>
+        $(function () {
+          window.docsearch({
+            apiKey: '<?js= template.search.apiKey ?>',
+            indexName: '<?js= template.search.indexName || "jsdoc" ?>',
+            inputSelector: '.search-input',
+            debug: false, // Set debug to true if you want to inspect the dropdown
+            algoliaOptions: {
+              hitsPerPage: <?js= template.search.hitsPerPage || 7 ?>
+            }
+          });
+        });
+      </script>
+  <?js } ?>
+  <script>
+      $(function () {
+          $('#menu-container').scrollbar();
+
+          <?js if (styleSwitcher) { ?>
+              var titleFont = '<?js= template.font.titleFont || 'Roboto' ?>';
+              var textFont = '<?js= template.font.textFont || 'Roboto' ?>';
+              var codeFont = '<?js= template.font.codeFont || 'Roboto+Mono' ?>';
+              var fontTemplate = '<link id="google-font" href="https://fonts.googleapis.com/css?family={FONTS}" rel="stylesheet">';
+              var schemes = '<?js= schemes.join('|') ?>'.split('|').map(function(scheme) {
+                    return scheme.split(',');
+              });
+              var currentThemeIndex = '<?js= template.scheme || 0 ?>';
+              var currentTheme = schemes[currentThemeIndex];
+              var textPrimary = currentTheme[0];
+              var textContrast = currentTheme[1];
+              var backgroundPrimary = currentTheme[2];
+              var backgroundContrast = currentTheme[3];
+
+              $('select').selectric();
+
+              function updateFonts() {
+                    var fonts = [];
+                    [titleFont, textFont, codeFont].map(function(font) {
+                        if (fonts.indexOf(font) < 0) {
+                            fonts.push(font);
+                        }
+                    });
+                    $('link#google-font').remove();
+                    $(fontTemplate.replace('{FONTS}', fonts.join('|'))).appendTo('head');
+                    updateStyles(currentTheme)
+              }
+
+              function fontName(font) {
+                    return font.split('+').join(' ');
+              }
+
+              function updateStyles(theme) {
+                    textPrimary = theme[0];
+                    textContrast = theme[1];
+                    backgroundPrimary = theme[2];
+                    backgroundContrast = theme[3];
+                    var styles = [
+                        'html, body {font-family: ' + fontName(textFont) + ';}',
+                        'h1, h2, h3, h4, h5, h6 {font-family: ' + fontName(titleFont) + ';}',
+                        'tt, code, kbd, samp, .params > div > code, .params > div > em, .params > div > .attributes {font-family: ' + fontName(codeFont) + ';}',
+                        'nav { background: ' + backgroundPrimary + '; }',
+                        '.hljs {background: ' + backgroundContrast + ';}',
+                        '.nav-container > ul > li.active a {color: ' + textPrimary + ';}',
+                        '.nav-container > ul > li.active ul {border-color: ' + textContrast + ';}',
+                        '.nav-container > ul > li.active a:hover {color: ' + textContrast + ';}}',
+                        '.nav-container > ul > li.active ul {border-color: ' + textContrast + ';}',
+                        'h4.name {color: ' + textContrast + ';}',
+                        '.params > div > code, .params > div > em {color: ' + textContrast + ';}',
+                        'a, a:active {color: ' + textContrast + ';}',
+                        '.hljs-doctag, .hljs-keyword, .hljs-formula {color: ' + textContrast + ';}',
+                        'nav ul a:hover, nav ul a:active {color: ' + textContrast + ';}',
+                        '.nav-container > ul > li > a {font-family: ' + fontName(titleFont) + ';}'
+                    ];
+
+                    $('style#style-switcher-styles').remove();
+                    $('<style id="style-switcher-styles">' + styles.join('') + '</style>').appendTo('head');
+              }
+
+              $('#export-action').on('click', function(e) {
+                    e.stopPropagation();
+                    var config = <?js= JSON.stringify(template) ?>;
+                    console.log(config);
+                    config.scheme = currentThemeIndex;
+                    config.font = {
+                        titleFont: titleFont,
+                        textFont: textFont,
+                        codeFont: codeFont
+                    };
+                    $('#config-preview').text(JSON.stringify(config, null, 2));
+                    $('#style-switcher-viewer').addClass('active');
+                    $('#config-preview').each(function(idx, elem) {
+                        console.log(elem);
+                        hljs.highlightBlock(elem);
+                    });
+                    console.log(config);
+              });
+
+              $('#style-switcher-viewer-close').on('click', function(e) {
+                $('#style-switcher-viewer').removeClass('active');
+              });
+
+              $('#heading-font').on('change', function(e) {
+                    titleFont = e.currentTarget.value;
+                    updateFonts();
+              });
+
+              $('#text-font').on('change', function(e) {
+                    textFont = e.currentTarget.value;
+                    updateFonts();
+              });
+
+              $('#code-font').on('change', function(e) {
+                    codeFont = e.currentTarget.value;
+                    updateFonts();
+              });
+
+              $('.scheme-box').on('click', function(e) {
+                    currentThemeIndex = e.currentTarget.dataset.scheme;
+                    currentTheme = schemes[currentThemeIndex]
+                    updateStyles(currentTheme)
+              });
+          <?js } ?>
+      });
+    </script>
+</body>
+</html>

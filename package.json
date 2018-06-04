@@ -1,0 +1,30 @@
+{
+  "name": "jsdoc-chameleon-template",
+  "version": "3.2.0",
+  "description": "LayoutzWeb JSDoc 3 Chameleon Template - For better looking documentation pages.",
+  "main": "publish.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/layoutzweb/jsdoc-chameleon-template"
+  },
+  "author": "jair Milanes <jmilanes.dev@gmail.com>",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/layoutzweb/jsdoc-chameleon-template"
+  },
+  "homepage": "https://github.com/layoutzweb/jsdoc-chameleon-template",
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "eslint-config-braintree": "^1.0.2",
+    "taffydb": "^2.7.3"
+  }
+}
