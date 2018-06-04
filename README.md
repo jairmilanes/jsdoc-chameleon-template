@@ -1,4 +1,4 @@
-# JSDoc Chameleon Template
+# ![JSDoc Chameleon Template](https://i.imgur.com/eP1AUxW.png "JSDoc Chameleon Template") 
 Chameleon is a nice, modern JsDoc 3 template for better looking documentation pages! [https://github.com/layoutzweb/jsdoc-modern-template](https://github.com/layoutzweb/jsdoc-modern-template).
 
 This template is a fork of the [Minami Js Doc Template](https://github.com/nijikokun/minami) with a few tweeks, it is fully responsive and gives you a customization options to choose colors and fonts to make it look as close to your brand as possible.
