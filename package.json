@@ -1,6 +1,6 @@
 {
   "name": "jsdoc-chameleon-template",
-  "version": "3.2.0",
+  "version": "1.0.0",
   "description": "LayoutzWeb JSDoc 3 Chameleon Template - For better looking documentation pages.",
   "main": "publish.js",
   "scripts": {

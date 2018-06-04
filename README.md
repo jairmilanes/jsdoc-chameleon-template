@@ -8,7 +8,8 @@ This template is a fork of the [Minami Js Doc Template](https://github.com/nijik
 ![LayoutzWeb JSDoc Chameleon Template Screenshot](https://i.imgur.com/w0UzHwy.jpg)
 
 ## Usage
-Clone repository to your designated `jsdoc` template directory, then:
+Clone this repository to your designated `jsdoc` template directory, or:
+```npm install jsdoc-chameleon-template --save-dev```
 
 ### Node.js Dependency
 In your projects `package.json` file add a generate script:
@@ -30,15 +31,17 @@ In your `jsdoc.json` file (create one in the root of your project if you don't h
 ```
 
 ## Style Switcher
-The Style Switcher is a simple pop up to help you visualise different color and font configurations. To enable the style switcher first take a look at the example configuration in the bottom of this page. Notice it has a key ```styleSwitcher``` and a couple of others, the ```colors``` keys, it has all the available default color schemes and you can add yours in case none of the default ones fit's your needs, and the ```fonts``` key, which has all the avavilable fonts and just like with colors, you can choose more fonts from [Google Fonts](https://fonts.google.com/) and add to the list.
+The Style Switcher is a simple pop up to help you visualise different color and font configurations. To enable the style switcher first take a look at the example configuration in the bottom of this page. Notice it has a key ```styleSwitcher``` and a couple of others:
+* the ```colors``` key, it has all the available default color schemes and you can add yours in case none of the default ones fit's your needs
+* the ```fonts``` key, which has all the avavilable fonts and just like with colors, you can choose more fonts from [Google Fonts](https://fonts.google.com/) and add to the list.
+
 To enable and use it follow these steps:
-* Setting the ```styleSwitcher:true``` in your jsdoc.json
+* Set ```styleSwitcher:true``` in your jsdoc.json
 * Re-generate your docs by running the ```generate-docs``` command
 * Visit your documentation page
 * Select your scheme and fonts
 * Click the export button on the style switcher
 * Copy your configuration to your ```jsdoc.json``` file
-
 
 ## Adding Search
 If you would like to enable [Algolia DocSearch](https://community.algolia.com/docsearch/), you can pass a `search` object into the `templates` object.
@@ -53,8 +56,7 @@ If you would like to enable [Algolia DocSearch](https://community.algolia.com/do
 }
 ```
 
-
-### Example JSDoc Config
+## Example JSDoc Config
 ```json
 {
   "tags": {
